@@ -1,9 +1,8 @@
 package com.colegiado.sistemacolegiado.services;
 
 import com.colegiado.sistemacolegiado.models.Aluno;
-import com.colegiado.sistemacolegiado.repositories.AlunoRepository;
+import com.colegiado.sistemacolegiado.repositories.AlunoRepositorio;
 import jakarta.transaction.Transactional;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,10 +11,10 @@ import java.util.Optional;
 @Service
 public class AlunoService {
 
-    final AlunoRepository alunoRepository;
+    final AlunoRepositorio alunoRepository;
 
 
-    public AlunoService (AlunoRepository alunoRepository){
+    public AlunoService (AlunoRepositorio alunoRepository){
         this.alunoRepository = alunoRepository;
     }
 
