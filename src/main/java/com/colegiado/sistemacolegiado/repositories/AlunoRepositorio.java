@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AlunoRepository extends JpaRepository<Aluno, Integer> {
+public interface AlunoRepositorio extends JpaRepository<Aluno, Integer> {
 
     boolean existsByfone (String fone);
 
