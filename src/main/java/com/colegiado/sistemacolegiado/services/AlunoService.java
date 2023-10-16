@@ -19,34 +19,34 @@ public class AlunoService {
     }
 
     @Transactional
-    public Aluno save (Aluno aluno){
+    public Aluno criarAluno(Aluno aluno){
         return  this.alunoRepository.save(aluno);
     }
 
-    public Optional<Aluno> findById (int id){
+    public Optional<Aluno> encontrarPorId(int id){
         return alunoRepository.findById(id);
     }
 
-    public List<Aluno> findAll (){
+    public List<Aluno> listarAlunos(){
         return  alunoRepository.findAll();
     }
 
     @Transactional
-    public void delete (Aluno aluno){
+    public void deletarAluno(Aluno aluno){
         alunoRepository.delete(aluno);
     }
 
 
-    public boolean existsByfone(String fone){
+    public boolean verificarTelefone(String fone){
         return alunoRepository.existsByfone(fone);
     }
 
 
-    public boolean existsBymatricula(String matricula) {
+    public boolean verificarMatricula(String matricula) {
         return  alunoRepository.existsBymatricula((matricula));
     }
 
-    public  boolean existsBylogin (String login){
+    public  boolean verificarLogin(String login){
         return alunoRepository.existsBylogin(login);
     }
 
