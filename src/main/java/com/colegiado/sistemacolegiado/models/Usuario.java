@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Usuario {
     @Id
@@ -26,3 +27,5 @@ public abstract class Usuario {
     @Column (nullable = false)
     private String senha;
 }
+
+

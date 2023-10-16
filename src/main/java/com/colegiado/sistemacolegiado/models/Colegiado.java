@@ -1,10 +1,6 @@
 package com.colegiado.sistemacolegiado.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Inheritance;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,12 +8,15 @@ import lombok.Setter;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.cglib.core.Local;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.util.ArrayList;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Entity
 public class Colegiado {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,5 +31,8 @@ public class Colegiado {
     private String portaria;
     @Column(nullable = false)
     private String curso;
+    @OneToMany(mappedBy = "colegiado")
+    private ArrayList<Professor> professores;
+
 
 }
