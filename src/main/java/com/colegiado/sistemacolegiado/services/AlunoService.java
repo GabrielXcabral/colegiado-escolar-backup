@@ -30,17 +30,14 @@ public class AlunoService {
     public List<Aluno> listarAlunos(){
         return  alunoRepository.findAll();
     }
-
     @Transactional
     public void deletarAluno(Aluno aluno){
         alunoRepository.delete(aluno);
     }
 
-
     public boolean verificarTelefone(String fone){
         return alunoRepository.existsByfone(fone);
     }
-
 
     public boolean verificarMatricula(String matricula) {
         return  alunoRepository.existsBymatricula((matricula));

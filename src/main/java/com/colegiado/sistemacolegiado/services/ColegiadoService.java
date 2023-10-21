@@ -20,13 +20,15 @@ public class ColegiadoService {
     public Colegiado criarColegiado(Colegiado colegiado){
         return this.colegiadoRepositorio.save(colegiado);
     }
+
     public List<Colegiado> listarColegiado(){
         return this.colegiadoRepositorio.findAll();
     }
+
     public Optional<Colegiado> encontrarPorId(int id){
         return this.colegiadoRepositorio.findById(id);
-
     }
+
     public void deletarColegiado(Colegiado colegiado){
         this.colegiadoRepositorio.delete(colegiado);
     }
@@ -36,7 +38,17 @@ public class ColegiadoService {
         Colegiado colegiado = encontrarPorId(idColegiado).orElseThrow(() -> new RuntimeException("Colegiado não encotrado"));
         colegiado.getProfessores().add(professor);
         return this.colegiadoRepositorio.save(colegiado);
+    }
 
+    public Colegiado removerProfessor(int idColegiado, int idProfessor){
+        Professor professor = professorService.encontrarPorId(idProfessor).orElseThrow(() -> new RuntimeException("Professor não encontrado"));
+        Colegiado colegiado = encontrarPorId(idColegiado).orElseThrow(() -> new RuntimeException("Colegiado não encotrado"));
+        if (colegiado.getProfessores().contains(professor)) {
+            colegiado.getProfessores().remove(professor);
+        } else {
+            throw new RuntimeException("O professor não está associado a este colegiado");
+        }
+        return this.colegiadoRepositorio.save(colegiado);
     }
 
 }

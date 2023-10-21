@@ -2,6 +2,7 @@ package com.colegiado.sistemacolegiado.services;
 
 import com.colegiado.sistemacolegiado.models.Aluno;
 import com.colegiado.sistemacolegiado.models.Professor;
+import com.colegiado.sistemacolegiado.models.enums.TipoVoto;
 import com.colegiado.sistemacolegiado.repositories.ProfessorRepositorio;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -42,4 +43,5 @@ public class ProfessorService {
     public  boolean verificarLogin(String login){
         return professorRepositorio.existsBylogin(login);
     }
+
 }

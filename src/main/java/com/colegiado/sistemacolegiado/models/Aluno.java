@@ -14,7 +14,7 @@ public class Aluno extends Usuario{
     public Aluno(int id, String nome, String fone, String matricula, String login, String senha){
         super(id, nome, fone, matricula, login, senha);
     }
-    @OneToMany(mappedBy = "processos")
+    @OneToMany(mappedBy = "aluno")
     private ArrayList<Processo> processos;
 
 }

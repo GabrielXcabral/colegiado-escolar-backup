@@ -3,10 +3,12 @@ package com.colegiado.sistemacolegiado.services;
 import com.colegiado.sistemacolegiado.models.Assunto;
 import com.colegiado.sistemacolegiado.models.Professor;
 import com.colegiado.sistemacolegiado.repositories.AssuntoRepositorio;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class AssuntoService {
     final AssuntoRepositorio assuntoRepositorio;
     public AssuntoService(AssuntoRepositorio assuntoRepositorio){
@@ -20,7 +22,6 @@ public class AssuntoService {
     }
     public Optional<Assunto> encontrarPorId(int id){
         return this.assuntoRepositorio.findById(id);
-
     }
     public void deletarAssunto(Assunto assunto){
         this.assuntoRepositorio.delete(assunto);
