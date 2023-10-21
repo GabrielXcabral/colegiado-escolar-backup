@@ -1,5 +1,7 @@
-package com.colegiado.sistemacolegiado.models;
+package com.colegiado.sistemacolegiado.models.Voto;
 
+import com.colegiado.sistemacolegiado.models.Processo;
+import com.colegiado.sistemacolegiado.models.Professor;
 import com.colegiado.sistemacolegiado.models.enums.TipoVoto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,11 +32,4 @@ public class Voto {
     private TipoVoto voto;
 }
 
-@Embeddable
-class VotoId implements Serializable {
-    @Column(name = "id_professor")
-    private int idProfessor;
-    @Column(name ="id_processo")
-    private int idProcesso;
 
-}

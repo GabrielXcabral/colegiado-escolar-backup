@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class Processo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
     @Column(nullable = false)
     private String numero;
     @Column(nullable = false)
@@ -27,15 +27,17 @@ public class Processo {
     @Column()
     private LocalDate dataParecer;
     @Column()
-    private byte[] parecer;
+    private Enum parecer;
     @ManyToMany
     private ArrayList<Professor> professores;
     @ManyToOne
     private Aluno aluno;
     @ManyToOne
-    private Processo processo;
-    @ManyToOne
     private Reuniao reuniao;
+    @Column
+    private String titulo;
+    @Column
+    private String requerimento;
 
 
 
