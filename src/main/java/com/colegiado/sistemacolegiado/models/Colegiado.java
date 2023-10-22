@@ -1,5 +1,6 @@
 package com.colegiado.sistemacolegiado.models;
 
+import com.colegiado.sistemacolegiado.models.dto.CriarColegiadoDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,5 +35,10 @@ public class Colegiado {
     @OneToMany(mappedBy = "colegiado")
     private ArrayList<Professor> professores;
 
-
+    public Colegiado(CriarColegiadoDTO colegiadoDTO) {
+        this.dataInicio = LocalDate.now();
+        this.descricao = colegiadoDTO.getDescricao();
+        this.portaria = colegiadoDTO.getPortaria();
+        this.curso = colegiadoDTO.getCurso();
+    }
 }

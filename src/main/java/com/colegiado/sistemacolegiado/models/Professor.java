@@ -1,5 +1,6 @@
 package com.colegiado.sistemacolegiado.models;
 
+import com.colegiado.sistemacolegiado.models.dto.UsuarioDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -26,4 +27,12 @@ public class Professor extends Usuario{
         this.coordenador = coordenador;
     }
 
+    public Professor(UsuarioDTO professorDTO) {
+        this.setNome(professorDTO.getNome());
+        this.setFone(professorDTO.getFone());
+        this.setMatricula(professorDTO.getMatricula());
+        this.setLogin(professorDTO.getLogin());
+        this.setSenha(professorDTO.getSenha());
+        this.coordenador = professorDTO.getCoordenador();
+    }
 }

@@ -1,5 +1,8 @@
 package com.colegiado.sistemacolegiado.models;
 
+import com.colegiado.sistemacolegiado.models.dto.CriarProcessoDTO;
+import com.colegiado.sistemacolegiado.models.enums.TipoDecisao;
+import com.colegiado.sistemacolegiado.models.enums.StatusProcesso;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,23 +25,23 @@ public class Processo {
     private String numero;
     @Column(nullable = false)
     private LocalDate dataRecepcao;
-    @Column()
     private LocalDate dataDistribuicao;
-    @Column()
     private LocalDate dataParecer;
-    @Column()
-    private Enum parecer;
-    @ManyToMany
-    private ArrayList<Professor> professores;
+    private TipoDecisao parecer;
+    @ManyToOne
+    private Professor professor;
     @ManyToOne
     private Aluno aluno;
     @ManyToOne
     private Reuniao reuniao;
-    @Column
-    private String titulo;
-    @Column
+    private String assunto;
     private String requerimento;
+    private StatusProcesso status;
 
-
-
+    public Processo(CriarProcessoDTO processoDTO, Aluno aluno) {
+        this.aluno = aluno;
+        this.assunto = processoDTO.getTitulo();
+        this.requerimento = processoDTO.getRequerimento();
+        this.status = StatusProcesso.CRIADO;
+    }
 }
