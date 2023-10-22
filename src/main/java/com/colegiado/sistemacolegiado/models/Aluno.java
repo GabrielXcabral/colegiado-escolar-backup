@@ -1,5 +1,6 @@
 package com.colegiado.sistemacolegiado.models;
 
+import com.colegiado.sistemacolegiado.models.dto.UsuarioDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
@@ -16,5 +17,14 @@ public class Aluno extends Usuario{
     }
     @OneToMany(mappedBy = "aluno")
     private ArrayList<Processo> processos;
+
+    public Aluno(UsuarioDTO alunoDTO) {
+        this.setNome(alunoDTO.getNome());
+        this.setFone(alunoDTO.getFone());
+        this.setMatricula(alunoDTO.getMatricula());
+        this.setLogin(alunoDTO.getLogin());
+        this.setSenha(alunoDTO.getSenha());
+
+    }
 
 }

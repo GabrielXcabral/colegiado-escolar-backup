@@ -1,6 +1,8 @@
 package com.colegiado.sistemacolegiado.services;
 
 import com.colegiado.sistemacolegiado.models.Aluno;
+import com.colegiado.sistemacolegiado.models.Colegiado;
+import com.colegiado.sistemacolegiado.models.dto.UsuarioDTO;
 import com.colegiado.sistemacolegiado.repositories.AlunoRepositorio;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -19,18 +21,18 @@ public class AlunoService {
     }
 
     @Transactional
-    public Aluno criarAluno(Aluno aluno){
-        return  this.alunoRepository.save(aluno);
+    public Aluno criarAluno(UsuarioDTO alunoDTO){
+        return  this.alunoRepository.save(new Aluno(alunoDTO));
     }
 
-    public Optional<Aluno> encontrarPorId(int id){
-        return alunoRepository.findById(id);
+    public Aluno encontrarPorId(int id){
+        return alunoRepository.findById(id).orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
     }
 
     public List<Aluno> listarAlunos(){
         return  alunoRepository.findAll();
     }
-    @Transactional
+
     public void deletarAluno(Aluno aluno){
         alunoRepository.delete(aluno);
     }
@@ -48,6 +50,13 @@ public class AlunoService {
     }
 
 
-
-
+    public Aluno atualizarAluno(Integer id, UsuarioDTO alunoDTO) {
+        Aluno aluno = encontrarPorId(id);
+        aluno.setNome(alunoDTO.getNome());
+        aluno.setFone(alunoDTO.getFone());
+        aluno.setMatricula(alunoDTO.getMatricula());
+        aluno.setLogin(alunoDTO.getLogin());
+        aluno.setSenha(alunoDTO.getSenha());
+        return alunoRepository.save(aluno);
+    }
 }

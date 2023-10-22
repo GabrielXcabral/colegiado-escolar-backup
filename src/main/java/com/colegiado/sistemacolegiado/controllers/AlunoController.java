@@ -1,6 +1,9 @@
 package com.colegiado.sistemacolegiado.controllers;
 
 import com.colegiado.sistemacolegiado.models.Aluno;
+import com.colegiado.sistemacolegiado.models.Colegiado;
+import com.colegiado.sistemacolegiado.models.dto.CriarColegiadoDTO;
+import com.colegiado.sistemacolegiado.models.dto.UsuarioDTO;
 import com.colegiado.sistemacolegiado.services.AlunoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -12,7 +15,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/controller-colegiado")
+@RequestMapping("/aluno")
 public class AlunoController {
 
     final AlunoService alunoService;
@@ -22,7 +25,7 @@ public class AlunoController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> criarAluno(@RequestBody @Valid Aluno aluno) {
+    public ResponseEntity<Object> criarAluno(@RequestBody @Valid UsuarioDTO aluno) {
         if (alunoService.verificarTelefone(aluno.getFone())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Telefone já existe no banco");
         }
@@ -40,12 +43,7 @@ public class AlunoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getAluno(@PathVariable(value = "id") int id) {
-        Optional<Aluno> verificarAluno = alunoService.encontrarPorId(id);
-
-        if (!verificarAluno.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Conflict: Id invalido");
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(verificarAluno.get());
+        return ResponseEntity.status(HttpStatus.OK).body(alunoService.encontrarPorId(id));
     }
 
     @GetMapping
@@ -54,32 +52,17 @@ public class AlunoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> atualizarAluno (@PathVariable (value = "id") int id, @RequestBody @Valid Aluno aluno){
-        Optional<Aluno> verificarAluno = alunoService.encontrarPorId(id);
-
-        if(!verificarAluno.isPresent()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not Found:  Id invalido");
-        }
-
-        Aluno alunoExistente = verificarAluno.get();
-        alunoExistente.setNome(aluno.getNome());
-        alunoExistente.setFone(aluno.getFone());
-        alunoExistente.setMatricula(aluno.getMatricula());
-        alunoExistente.setLogin(aluno.getLogin());
-        alunoExistente.setSenha(aluno.getSenha());
-
-        return ResponseEntity.status(HttpStatus.OK).body(alunoService.criarAluno(alunoExistente));
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public Aluno atualizarAluno(@PathVariable Integer id,
+                                       @RequestBody @Valid UsuarioDTO alunoDTO){
+        return alunoService.atualizarAluno(id, alunoDTO);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletarAluno(@PathVariable (value = "id") int id){
-        Optional<Aluno> verificarAluno = alunoService.encontrarPorId(id);
-
-        if(!verificarAluno.isPresent()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not Found: Id invalido");
-        }
-
-        var alunoExistente = verificarAluno.get();
+        var alunoExistente = alunoService.encontrarPorId(id);
         alunoService.deletarAluno(alunoExistente);
         return ResponseEntity.status(HttpStatus.OK).body("OK: Aluno exluido com sucesso!");
 
