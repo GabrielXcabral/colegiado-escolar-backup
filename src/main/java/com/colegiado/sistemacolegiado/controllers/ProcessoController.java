@@ -3,6 +3,7 @@ package com.colegiado.sistemacolegiado.controllers;
 import com.colegiado.sistemacolegiado.models.dto.CriarProcessoDTO;
 import com.colegiado.sistemacolegiado.models.Processo;
 import com.colegiado.sistemacolegiado.models.dto.FiltrarProcessoDTO;
+import com.colegiado.sistemacolegiado.models.dto.ProcessoDTO;
 import com.colegiado.sistemacolegiado.services.ProcessoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -28,11 +29,11 @@ public class ProcessoController {
     @GetMapping("/filtro")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public List<Processo> listarProcessos(FiltrarProcessoDTO filtro){
+    public List<Processo> listarProcessos(@RequestBody FiltrarProcessoDTO filtro){
         return processoService.listarProcessos(filtro);
     }
 
-    @GetMapping("/filtro/coordendador")
+    @GetMapping("/filtro/coordenador")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public List<Processo> listarProcessosCoordenador(FiltrarProcessoDTO filtro){
@@ -42,8 +43,8 @@ public class ProcessoController {
     @PostMapping("atribuir/{idProcesso}/{idProfessor}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public Processo atribuirProcesso(@PathVariable Integer idProcesso,
-                                     @PathVariable Integer idProfessor){
-        return processoService.atribuirProcesso(idProcesso, idProfessor);
+    public ProcessoDTO atribuirProcesso(@PathVariable Integer idProcesso,
+                                        @PathVariable Integer idProfessor){
+        return new ProcessoDTO(processoService.atribuirProcesso(idProcesso, idProfessor));
     }
 }

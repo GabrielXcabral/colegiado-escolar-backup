@@ -6,6 +6,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Aluno extends Usuario{
@@ -16,7 +17,7 @@ public class Aluno extends Usuario{
         super(id, nome, fone, matricula, login, senha);
     }
     @OneToMany(mappedBy = "aluno")
-    private ArrayList<Processo> processos;
+    private List<Processo> processos;
 
     public Aluno(UsuarioDTO alunoDTO) {
         this.setNome(alunoDTO.getNome());

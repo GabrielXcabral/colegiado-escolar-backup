@@ -38,6 +38,7 @@ public class ColegiadoService {
         Professor professor = professorService.encontrarPorId(idProfessor);
         Colegiado colegiado = encontrarPorId(idColegiado);
         colegiado.getProfessores().add(professor);
+        professor.setColegiado(colegiado);
         return this.colegiadoRepositorio.save(colegiado);
     }
 
