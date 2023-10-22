@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,7 +21,7 @@ public class Professor extends Usuario{
     @ManyToOne
     private Colegiado colegiado;
     @ManyToMany
-    private ArrayList<Processo> processos;
+    private List<Processo> processos;
 
     public Professor(int id, String nome, String fone, String matricula, String login, String senha, boolean coordenador){
         super(id, nome, fone, matricula, login, senha);

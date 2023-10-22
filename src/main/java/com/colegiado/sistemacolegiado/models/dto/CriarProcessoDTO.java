@@ -1,6 +1,7 @@
 package com.colegiado.sistemacolegiado.models.dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,8 +12,8 @@ import lombok.Setter;
 public class CriarProcessoDTO {
     @NotEmpty(message = "Requerimento é obrigatório")
     private String requerimento;
-    @NotEmpty(message = "Título é obrigatório")
-    private String titulo;
-    @NotEmpty(message = "Aluno é obrigatório")
-    private int idAluno;
+    @NotNull(message = "assunto é obrigatório")
+    private Integer idAssunto;
+    @NotNull(message = "Aluno é obrigatório")
+    private Integer idAluno;
 }

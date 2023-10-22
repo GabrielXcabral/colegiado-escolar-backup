@@ -2,6 +2,7 @@ package com.colegiado.sistemacolegiado.services;
 
 
 import com.colegiado.sistemacolegiado.models.Aluno;
+import com.colegiado.sistemacolegiado.models.Assunto;
 import com.colegiado.sistemacolegiado.models.dto.CriarProcessoDTO;
 import com.colegiado.sistemacolegiado.models.Processo;
 import com.colegiado.sistemacolegiado.models.Professor;
@@ -28,8 +29,9 @@ public class ProcessoService {
     final AssuntoService assuntoService;
 
     public Processo criarProcesso(CriarProcessoDTO processoDTO){
+        var assunto = assuntoService.encontrarPorId(processoDTO.getIdAssunto());
         var aluno = alunoService.encontrarPorId(processoDTO.getIdAluno());
-        return this.processoRepositorio.save(new Processo(processoDTO, aluno));
+        return this.processoRepositorio.save(new Processo(processoDTO, aluno, assunto));
     }
 
     public Optional<Processo> encontrarPorId(int id){
@@ -69,13 +71,15 @@ public class ProcessoService {
     }
 
     public List<Processo> listarProcessos(FiltrarProcessoDTO filtro) {
-        if (filtro.getIdAluno() != null || filtro.getIdAssunto() !=null){
+        Assunto assunto = null;
+        if (filtro.getIdAssunto() != null){
+            assunto = assuntoService.encontrarPorId(filtro.getIdAssunto());
+        }
+        if (filtro.getIdAluno() != null){
             var aluno = alunoService.encontrarPorId(filtro.getIdAluno());
-            var assunto = assuntoService.encontrarPorId(filtro.getIdAssunto());
             return processoRepositorio.findByStatusAndAssuntoAndAlunoOrderByDataRecepcao(filtro.getStatus(), assunto, aluno);
-        } else if (filtro.getIdProfessor() != null || filtro.getIdAssunto() !=null){
+        } else if (filtro.getIdProfessor() != null & filtro.getIdAssunto() !=null){
             var professor = professorService.encontrarPorId(filtro.getIdProfessor());
-            var assunto = assuntoService.encontrarPorId(filtro.getIdAssunto());
             return processoRepositorio.findByStatusAndAssuntoAndProfessorOrderByDataRecepcao(filtro.getStatus(), assunto, professor);
         } else {
             throw new RuntimeException("Aluno ou professor não informados.");

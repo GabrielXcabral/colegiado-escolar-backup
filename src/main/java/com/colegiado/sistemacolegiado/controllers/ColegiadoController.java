@@ -1,6 +1,7 @@
 package com.colegiado.sistemacolegiado.controllers;
 
 import com.colegiado.sistemacolegiado.models.Colegiado;
+import com.colegiado.sistemacolegiado.models.dto.ColegiadoDTO;
 import com.colegiado.sistemacolegiado.models.dto.CriarColegiadoDTO;
 import com.colegiado.sistemacolegiado.services.ColegiadoService;
 import jakarta.validation.Valid;
@@ -26,17 +27,17 @@ public class ColegiadoController {
     @PatchMapping("/professor/{idColegiado}/{idProfessor}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public Colegiado adicionaProfessor(@PathVariable Integer idColegiado,
-                                       @PathVariable Integer idProfessor){
-        return colegiadoService.adicionarProfessor(idColegiado, idProfessor);
+    public ColegiadoDTO adicionaProfessor(@PathVariable Integer idColegiado,
+                                          @PathVariable Integer idProfessor){
+        return new ColegiadoDTO(colegiadoService.adicionarProfessor(idColegiado, idProfessor));
     }
 
     @DeleteMapping("/professor/{idColegiado}/{idProfessor}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public Colegiado removeProfessor(@PathVariable Integer idColegiado,
+    public ColegiadoDTO removeProfessor(@PathVariable Integer idColegiado,
                                      @PathVariable Integer idProfessor){
-        return colegiadoService.removerProfessor(idColegiado, idProfessor);
+        return new ColegiadoDTO(colegiadoService.removerProfessor(idColegiado, idProfessor));
     }
 
     @DeleteMapping("/{id}")

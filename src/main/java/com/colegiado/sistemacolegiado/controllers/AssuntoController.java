@@ -13,13 +13,14 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @AllArgsConstructor
+@RequestMapping("/assunto")
 public class AssuntoController {
     private final AssuntoService assuntoService;
 
-    @PostMapping("/assunto")
+    @PostMapping
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public Assunto criarAssunto(@RequestBody @Valid CriarAssuntoDTO assuntoDTO){
+    public Assunto criarAssunto(@RequestBody CriarAssuntoDTO assuntoDTO){
         return assuntoService.criarAssunto(assuntoDTO);
     }
 

@@ -22,8 +22,6 @@ public class Processo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @Column(nullable = false)
-    private String numero;
-    @Column(nullable = false)
     private LocalDate dataRecepcao;
     private LocalDate dataDistribuicao;
     private LocalDate dataParecer;
@@ -34,14 +32,16 @@ public class Processo {
     private Aluno aluno;
     @ManyToOne
     private Reuniao reuniao;
-    private String assunto;
+    @ManyToOne
+    private Assunto assunto;
     private String requerimento;
     private StatusProcesso status;
 
-    public Processo(CriarProcessoDTO processoDTO, Aluno aluno) {
+    public Processo(CriarProcessoDTO processoDTO, Aluno aluno, Assunto assunto) {
         this.aluno = aluno;
-        this.assunto = processoDTO.getTitulo();
+        this.assunto = assunto;
         this.requerimento = processoDTO.getRequerimento();
         this.status = StatusProcesso.CRIADO;
+        this.dataRecepcao = LocalDate.now();
     }
 }
