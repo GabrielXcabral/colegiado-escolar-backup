@@ -12,9 +12,4 @@ public class SistemaColegiadoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SistemaColegiadoApplication.class, args);
 	}
-
-	@GetMapping("/")
-	public String index(){
-		return "Olá, mundo!";
-	}
 }
