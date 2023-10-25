@@ -1,5 +1,6 @@
 package com.colegiado.sistemacolegiado.controllers;
 
+import com.colegiado.sistemacolegiado.models.Aluno;
 import com.colegiado.sistemacolegiado.models.Assunto;
 import com.colegiado.sistemacolegiado.models.dto.CriarAssuntoDTO;
 import com.colegiado.sistemacolegiado.models.dto.UsuarioDTO;
@@ -10,12 +11,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/assunto")
+@RequestMapping("/assuntos")
 public class AssuntoController {
     private final AssuntoService assuntoService;
+
+    @GetMapping
+    public ModelAndView listarAssuntos(ModelAndView modelAndView) {
+        List<Assunto> assuntos = assuntoService.listarAssuntos();
+
+        modelAndView.setViewName("assuntos/index");
+        modelAndView.addObject("assuntos", assuntos);
+        return modelAndView;
+    }
 
     @PostMapping
     @ResponseBody
