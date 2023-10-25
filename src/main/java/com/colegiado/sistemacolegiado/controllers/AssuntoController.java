@@ -35,10 +35,8 @@ public class AssuntoController {
 
     @GetMapping("/new")
     public ModelAndView current(ModelAndView modelAndView, CriarAssuntoDTO assuntoDTO) {
-        List<Assunto> assuntos = assuntoService.listarAssuntos();
 
         modelAndView.setViewName("assuntos/new");
-        modelAndView.addObject("assuntos", assuntos);
         modelAndView.addObject("assuntoDTO", assuntoDTO);
 
         return modelAndView;
