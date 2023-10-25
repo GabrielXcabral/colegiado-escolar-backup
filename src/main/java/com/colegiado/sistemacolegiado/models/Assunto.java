@@ -16,6 +16,7 @@ public class Assunto {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
+
     String nome;
 
     public Assunto(CriarAssuntoDTO assunto) {
