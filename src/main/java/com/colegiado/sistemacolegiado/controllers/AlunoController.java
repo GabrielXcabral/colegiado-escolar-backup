@@ -68,10 +68,7 @@ public class AlunoController {
 
     @GetMapping("/new")
     public ModelAndView current(ModelAndView modelAndView, UsuarioDTO alunoDTO) {
-        List<Aluno> alunos = alunoService.listarAlunos();
-
         modelAndView.setViewName("alunos/new");
-        modelAndView.addObject("alunos", alunos);
         modelAndView.addObject("alunoDTO", alunoDTO);
 
         return modelAndView;

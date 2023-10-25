@@ -38,10 +38,8 @@ public class ProfessorController {
 
     @GetMapping("/new")
     public ModelAndView current(ModelAndView modelAndView, UsuarioDTO professorDTO) {
-        List<Professor> professores = professorService.listarProfessores();
 
         modelAndView.setViewName("professores/new");
-        modelAndView.addObject("professores", professores);
         modelAndView.addObject("professorDTO", professorDTO);
 
         return modelAndView;

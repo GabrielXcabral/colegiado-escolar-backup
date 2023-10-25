@@ -22,7 +22,6 @@
                     <th scope="col">Coordenador</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
-                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -31,7 +30,7 @@
                     <td class="col-3" th:text="${professor.nome}">Nome do Aluno</td>
                     <td class="col-3" th:text="${professor.fone}">Telefone</td>
                     <td class="col-3" th:text="${professor.matricula.toString()}">Matrícula</td>
-                    <td class="col-1" th:text="${professor.coordenador.toString() == 'true' ? 'Sim' : 'Não'}">Matrícula</td>
+                    <td class="col-1" th:text="${professor.coordenador.toString() == 'true' ? 'Sim' : 'Não'}">Coordenador</td>
                     <td class="col-1">
                         <a class="btn btn-outline-warning" th:href="@{/professores/{value}/edit(value = ${professor.id})}"><i class="fa-solid fa-pen"></i></a>
                     </td>
