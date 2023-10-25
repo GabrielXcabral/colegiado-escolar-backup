@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ColegiadoDTO {
 
-    private int id;
+    private Integer id;
     private LocalDate dataInicio;
     private LocalDate dataFim;
     private String descricao;

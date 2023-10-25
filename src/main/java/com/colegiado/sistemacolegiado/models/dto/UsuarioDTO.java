@@ -1,5 +1,7 @@
 package com.colegiado.sistemacolegiado.models.dto;
 
+import com.colegiado.sistemacolegiado.models.Professor;
+import com.colegiado.sistemacolegiado.models.Usuario;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
