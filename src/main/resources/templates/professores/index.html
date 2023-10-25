@@ -1,8 +1,8 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layouts :: head('Lista das alunos')}"></head>
+<head th:replace="~{layouts :: head('Lista das Professores')}"></head>
 <body>
-<header th:replace="~{layouts :: header('Listagem de Alunos')}"></header>
+<header th:replace="~{layouts :: header('Listagem de Professores')}"></header>
 
 <div class="container mt-4 mb-5">
     <div class="row">
@@ -19,35 +19,37 @@
                     <th scope="col">Nome</th>
                     <th scope="col">Telefone</th>
                     <th scope="col">Matrícula</th>
+                    <th scope="col">Coordenador</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="aluno : ${alunos}">
-                    <th class="col-1" scope="row" th:text="${aluno.getId()}">ID</th>
-                    <td class="col-3" th:text="${aluno.nome}">Nome do Aluno</td>
-                    <td class="col-3" th:text="${aluno.fone}">Telefone</td>
-                    <td class="col-3" th:text="${aluno.matricula.toString()}">Matrícula</td>
+                <tr th:each="professor : ${professores}">
+                    <th class="col-1" scope="row" th:text="${professor.getId()}">ID</th>
+                    <td class="col-3" th:text="${professor.nome}">Nome do Aluno</td>
+                    <td class="col-3" th:text="${professor.fone}">Telefone</td>
+                    <td class="col-3" th:text="${professor.matricula.toString()}">Matrícula</td>
+                    <td class="col-1" th:text="${professor.coordenador.toString() == 'true' ? 'Sim' : 'Não'}">Matrícula</td>
                     <td class="col-1">
-                        <a class="btn btn-outline-warning" th:href="@{/alunos/{value}/edit(value = ${aluno.id})}"><i class="fa-solid fa-pen"></i></a>
+                        <a class="btn btn-outline-warning" th:href="@{/professores/{value}/edit(value = ${professor.id})}"><i class="fa-solid fa-pen"></i></a>
                     </td>
                     <td class="col-1">
-                        <a class="btn btn-outline-danger" data-bs-toggle="modal" th:attr="data-bs-target='#modal-warning'+${aluno.id}"><i class="fa-solid fa-trash"></i></a>
-                        <div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" th:id="modal-warning+${aluno.id}" >
+                        <a class="btn btn-outline-danger" data-bs-toggle="modal" th:attr="data-bs-target='#modal-warning'+${professor.id}"><i class="fa-solid fa-trash"></i></a>
+                        <div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" th:id="modal-warning+${professor.id}" >
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Remover Aluno</h1>
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Remover Professor</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Tem certeza que deseja remover esse Aluno?
+                                        Tem certeza que deseja remover esse professor?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <a class="btn btn-danger" th:href="@{/alunos/{value}/delete(value = ${aluno.id})}"><i class="fa-solid fa-trash"></i>&nbsp;Remover</a>
+                                        <a class="btn btn-danger" th:href="@{/professores/{value}/delete(value = ${professor.id})}"><i class="fa-solid fa-trash"></i>&nbsp;Remover</a>
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +63,7 @@
         </div>
     </div>
     <div>
-        <a type="button" class="btn btn-success" href="/alunos/new"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Novo Aluno</a>
+        <a type="button" class="btn btn-success" href="/professores/new"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Novo Professor</a>
     </div>
 </div>
 

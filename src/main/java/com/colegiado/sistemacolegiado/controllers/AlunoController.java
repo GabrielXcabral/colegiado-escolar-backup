@@ -28,7 +28,7 @@ public class AlunoController {
         this.alunoService = alunoService;
     }
 
-    @PostMapping("")
+    @PostMapping
     public ModelAndView criarAluno(ModelAndView modelAndView, @Valid UsuarioDTO aluno,  BindingResult bindingResult, RedirectAttributes attr) {
 
         if (alunoService.verificarTelefone(aluno.getFone())) {
@@ -139,7 +139,6 @@ public class AlunoController {
         }
 
         return modelAndView;
-
     }
 }
 

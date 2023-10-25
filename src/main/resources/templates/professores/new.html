@@ -1,18 +1,18 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layouts :: head('Cadastrar Aluno')}"></head>
+<head th:replace="~{layouts :: head('Cadastrar Professor(a)')}"></head>
 <body>
-<header th:replace="~{layouts :: header('Cadastrar Aluno')}"></header>
+<header th:replace="~{layouts :: header('Cadastrar Professor(a)')}"></header>
 
 <div class="container mt-4 mb-5">
-    <form th:object="${alunoDTO}" th:action="${'/alunos'}" method="POST">
+    <form th:object="${professorDTO}" th:action="${'/professores'}" method="POST">
         <div role="alert" class="alert d-flex align-items-center alert-dismissible fade show" th:if="${message ne null}" th:classappend="${error ? 'alert-danger' : 'alert-success'}">
             <i class="me-2" th:classappend="${error ? 'fa-solid fa-circle-xmark' : 'fa-solid fa-circle-check'}"></i>
             <div th:text="${message}"></div>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         <div class="mb-3">
-            <label class="form-label">Nome do Aluno</label>
+            <label class="form-label">Nome do Professor(a)</label>
             <input class="form-control" th:errorclass="is-invalid" type="text" th:field="*{nome}">
             <div class="invalid-feedback" th:errors="*{nome}"></div>
         </div>
@@ -39,6 +39,13 @@
             <label class="form-label">Senha</label>
             <input class="form-control" th:errorclass="is-invalid" type="password" th:field="*{senha}">
             <div class="invalid-feedback" th:errors="*{senha}"></div>
+        </div>
+
+        <div class="mb-5">
+            <input class="form-check-input" th:errorclass="is-invalid" type="checkbox" th:field="*{coordenador}" id="isCoordenador">
+            <label class="form-check-label" for="isCoordenador">É Coordenador?</label>
+            <i class="me-2 fa-solid fa-circle-info" title="Marque essa alternativa caso o professor(a) também seja coordenador(a)."></i>
+            <div class="invalid-feedback" th:errors="*{coordenador}"></div>
         </div>
 
         <button class="btn btn-primary" type="submit">Enviar</button>

@@ -1,13 +1,13 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layouts :: head('Editar Aluno')}"></head>
+<head th:replace="~{layouts :: head('Editar Professor')}"></head>
 <body>
-<header th:replace="~{layouts :: header('Editar aluno #' + ${alunoId})}"></header>
+<header th:replace="~{layouts :: header('Editar professor #' + ${professorId})}"></header>
 
-<div class="container mt-4 mb-5">
-  <form th:object="${aluno}" th:action="${'/alunos/' + alunoId}" method="POST">
+<div class="container mt-4">
+  <form th:object="${professor}" th:action="${'/professores/' + professorId}" method="POST">
     <div class="mb-3">
-      <label class="form-label">Nome do Aluno</label>
+      <label class="form-label">Nome do Professor</label>
       <input class="form-control" th:errorclass="is-invalid" type="text" th:field="*{nome}">
       <div class="invalid-feedback" th:errors="*{nome}"></div>
     </div>
@@ -32,6 +32,13 @@
       <label class="form-label">Senha</label>
       <input class="form-control" th:errorclass="is-invalid" type="password" th:field="*{senha}">
       <div class="invalid-feedback" th:errors="*{senha}"></div>
+    </div>
+
+    <div class="mb-5">
+      <input class="form-check-input" th:errorclass="is-invalid" type="checkbox" th:field="*{coordenador}" id="isCoordenador">
+      <label class="form-check-label" for="isCoordenador">É Coordenador?</label>
+      <i class="me-2 fa-solid fa-circle-info" title="Marque essa alternativa caso o professor(a) também seja coordenador(a)."></i>
+      <div class="invalid-feedback" th:errors="*{coordenador}"></div>
     </div>
 
     <button class="btn btn-primary" type="submit">Enviar</button>

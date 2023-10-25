@@ -2,6 +2,7 @@ package com.colegiado.sistemacolegiado.services;
 
 import com.colegiado.sistemacolegiado.models.Aluno;
 import com.colegiado.sistemacolegiado.models.Professor;
+import com.colegiado.sistemacolegiado.models.dto.ProfessorDTO;
 import com.colegiado.sistemacolegiado.models.dto.UsuarioDTO;
 import com.colegiado.sistemacolegiado.repositories.ProfessorRepositorio;
 import lombok.AllArgsConstructor;
@@ -45,9 +46,10 @@ public class ProfessorService {
         Professor professor = encontrarPorId(id);
         professor.setNome(professorDTO.getNome());
         professor.setFone(professorDTO.getFone());
-        professor.setMatricula(professor.getMatricula());
-        professor.setLogin(professor.getLogin());
-        professor.setSenha(professor.getSenha());
+        professor.setMatricula(professorDTO.getMatricula());
+        professor.setLogin(professorDTO.getLogin());
+        professor.setSenha(professorDTO.getSenha());
+        professor.setCoordenador(professorDTO.getCoordenador());
         return professorRepositorio.save(professor);
     }
 }
