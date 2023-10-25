@@ -51,7 +51,7 @@ public class AlunoController {
         return ResponseEntity.status(HttpStatus.OK).body(alunoService.listarAlunos());
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public Aluno atualizarAluno(@PathVariable Integer id,

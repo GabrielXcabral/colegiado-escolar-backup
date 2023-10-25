@@ -36,7 +36,7 @@ public class ProcessoController {
     @GetMapping("/filtro/coordenador")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public List<Processo> listarProcessosCoordenador(FiltrarProcessoDTO filtro){
+    public List<Processo> listarProcessosCoordenador(@RequestBody FiltrarProcessoDTO filtro){
         return processoService.listarProcessosCoordenador(filtro);
     }
 
