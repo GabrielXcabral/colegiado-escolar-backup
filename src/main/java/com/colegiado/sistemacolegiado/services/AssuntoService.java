@@ -31,7 +31,7 @@ public class AssuntoService {
         this.assuntoRepositorio.delete(assunto);
     }
 
-    public Assunto atualizarAssunto(Integer id, UsuarioDTO assuntoDTO) {
+    public Assunto atualizarAssunto(Integer id, CriarAssuntoDTO assuntoDTO) {
         Assunto assunto = encontrarPorId(id);
         assunto.setNome(assuntoDTO.getNome());
         return assuntoRepositorio.save(assunto);
