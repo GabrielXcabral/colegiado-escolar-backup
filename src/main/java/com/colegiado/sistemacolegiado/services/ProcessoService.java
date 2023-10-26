@@ -78,7 +78,7 @@ public class ProcessoService {
         if (filtro.getIdAluno() != null){
             var aluno = alunoService.encontrarPorId(filtro.getIdAluno());
             return processoRepositorio.findByStatusAndAssuntoAndAlunoOrderByDataRecepcao(filtro.getStatus(), assunto, aluno);
-        } else if (filtro.getIdProfessor() != null & filtro.getIdAssunto() !=null){
+        } else if (filtro.getIdProfessor() != null){
             var professor = professorService.encontrarPorId(filtro.getIdProfessor());
             return processoRepositorio.findByStatusAndAssuntoAndProfessorOrderByDataRecepcao(filtro.getStatus(), assunto, professor);
         } else {

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/processo")
@@ -19,25 +20,36 @@ import java.util.List;
 public class ProcessoController {
     final ProcessoService processoService;
 
-    @PostMapping
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public Processo criarProcesso(@RequestBody @Valid CriarProcessoDTO processo){
-       return processoService.criarProcesso(processo);
+    @PostMapping("/{idAluno}")
+    public ProcessoDTO criarProcesso(@PathVariable Integer idAluno, CriarProcessoDTO processo){
+        processo.setIdAluno(idAluno);
+        return new ProcessoDTO(processoService.criarProcesso(processo));
     }
 
-    @GetMapping("/filtro")
+    @GetMapping("/filtro/aluno/{idAluno}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public List<Processo> listarProcessos(@RequestBody FiltrarProcessoDTO filtro){
-        return processoService.listarProcessos(filtro);
+    public List<ProcessoDTO> listarProcessosAluno(@PathVariable Integer idAluno, FiltrarProcessoDTO filtro){
+        filtro.setIdAluno(idAluno);
+        return processoService.listarProcessos(filtro).stream().map(ProcessoDTO::new).collect(Collectors.toList());
     }
+
+    @GetMapping("/filtro/professor/{idProfessor}")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProcessoDTO> listarProcessosProcesso(@PathVariable Integer idProfessor, FiltrarProcessoDTO filtro){
+        filtro.setIdProfessor(idProfessor);
+        return processoService.listarProcessos(filtro).stream().map(ProcessoDTO::new).collect(Collectors.toList());
+    }
+
 
     @GetMapping("/filtro/coordenador")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public List<Processo> listarProcessosCoordenador(FiltrarProcessoDTO filtro){
-        return processoService.listarProcessosCoordenador(filtro);
+    public List<ProcessoDTO> listarProcessosCoordenador( FiltrarProcessoDTO filtro){
+        return processoService.listarProcessos(filtro).stream().map(ProcessoDTO::new).collect(Collectors.toList());
     }
 
     @PostMapping("atribuir/{idProcesso}/{idProfessor}")

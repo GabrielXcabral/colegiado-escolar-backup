@@ -33,7 +33,9 @@ public class ProcessoDTO {
         this.dataRecepcao = processo.getDataRecepcao();
         this.dataDistribuicao = processo.getDataDistribuicao();
         this.dataParecer = processo.getDataParecer();
-        this.professor = new ProfessorDTO(processo.getProfessor());
+        if (processo.getProfessor() != null){
+            this.professor = new ProfessorDTO(processo.getProfessor());
+        }
         this.aluno = new AlunoDTO(processo.getAluno());
         this.assunto = processo.getAssunto();
         this.requerimento = processo.getRequerimento();
