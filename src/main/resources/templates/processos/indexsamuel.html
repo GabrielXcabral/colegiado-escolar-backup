@@ -1,8 +1,8 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layouts :: head('Lista das Assuntos')}"></head>
+<head th:replace="~{layouts :: head('Lista de Processos')}"></head>
 <body>
-<header th:replace="~{layouts :: header('Listagem de Assuntos')}"></header>
+<header th:replace="~{layouts :: header('Listagem de Processos')}"></header>
 
 <div class="container mt-4 mb-5">
     <div class="row">
@@ -16,33 +16,39 @@
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
+                    <th scope="col">Numero</th>
+                    <th scope="col">Data Recepção</th>
+                    <th scope="col">Data Distribuição</th>
+                    <th scope="col">Data Parecer</th>
+                    <th scope="col">Parecer</th>
+                    <th scope="col">Desisão Relator</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="assunto : ${assuntos}">
-                    <th class="col-1" scope="row" th:text="${assunto.getId()}">ID</th>
-                    <td class="col-3" th:text="${assunto.assunto}">Nome</td>
+                <tr th:each="colegiado : ${colegiados}">
+                    <th class="col-1" scope="row" th:text="${colegiado.getId()}">ID</th>
+                    <td class="col-3" th:text="${#temporals.format(colegiado.dataInicio, 'dd/MM/yyyy')}">Data Início</td>
+                    <td class="col-3" th:text="${#temporals.format(colegiado.dataFim, 'dd/MM/yyyy')}">Data Fim</td>
+                    <td class="col-3" th:text="${colegiado.portaria}">Portaria</td>
+                    <td class="col-1" th:text="${colegiado.curso}">Curso</td>
                     <td class="col-1">
-                        <a class="btn btn-outline-warning" th:href="@{/assuntos/{value}/edit(value = ${assunto.id})}"><i class="fa-solid fa-pen"></i></a>
+                        <a class="btn btn-outline-warning" th:href="@{/colegiados/{value}/edit(value = ${colegiado.id})}"><i class="fa-solid fa-pen"></i></a>
                     </td>
                     <td class="col-1">
-                        <a class="btn btn-outline-danger" data-bs-toggle="modal" th:attr="data-bs-target='#modal-warning'+${assunto.id}"><i class="fa-solid fa-trash"></i></a>
-                        <div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" th:id="modal-warning+${assunto.id}" >
+                        <a class="btn btn-outline-danger" data-bs-toggle="modal" th:attr="data-bs-target='#modal-warning'+${colegiado.id}"><i class="fa-solid fa-trash"></i></a>
+                        <div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" th:id="modal-warning+${colegiado.id}" >
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Remover Assunto</h1>
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Remover Colegiado</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Tem certeza que deseja remover esse Assunto?
+                                        Tem certeza que deseja remover esse colegiado?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <a class="btn btn-danger" th:href="@{/assuntos/{value}/delete(value = ${assunto.id})}"><i class="fa-solid fa-trash"></i>&nbsp;Remover</a>
+                                        <a class="btn btn-danger" th:href="@{/colegiados/{value}/delete(value = ${colegiado.id})}"><i class="fa-solid fa-trash"></i>&nbsp;Remover</a>
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +62,7 @@
         </div>
     </div>
     <div>
-        <a type="button" class="btn btn-success" href="/assuntos/new"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Novo Assunto</a>
+        <a type="button" class="btn btn-success" href="/processos/cadastrar"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;ovo Processo</a>
     </div>
 </div>
 

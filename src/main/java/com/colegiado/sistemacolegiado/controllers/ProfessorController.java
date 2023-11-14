@@ -8,9 +8,11 @@ import com.colegiado.sistemacolegiado.models.dto.AlunoDTO;
 import com.colegiado.sistemacolegiado.models.dto.ProfessorDTO;
 import com.colegiado.sistemacolegiado.models.dto.UsuarioDTO;
 import com.colegiado.sistemacolegiado.services.AlunoService;
+import com.colegiado.sistemacolegiado.services.ColegiadoService;
 import com.colegiado.sistemacolegiado.services.ProfessorService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -27,20 +29,27 @@ import java.util.List;
 public class ProfessorController {
     private final ProfessorService professorService;
 
+    private final ColegiadoService colegiadoService;
+
     @GetMapping
     public ModelAndView getAlunos(ModelAndView modelAndView) {
         List<Professor> professores = professorService.listarProfessores();
 
         modelAndView.setViewName("professores/index");
         modelAndView.addObject("professores", professores);
+
+
         return modelAndView;
     }
 
     @GetMapping("/new")
     public ModelAndView current(ModelAndView modelAndView, UsuarioDTO professorDTO) {
 
+        List<Colegiado> colegiados = colegiadoService.listarColegiado();
+
         modelAndView.setViewName("professores/new");
         modelAndView.addObject("professorDTO", professorDTO);
+        modelAndView.addObject("colegiados", colegiados);
 
         return modelAndView;
     }
@@ -83,7 +92,7 @@ public class ProfessorController {
     }
 
     @PostMapping
-    public ModelAndView criarProfessor(ModelAndView modelAndView, @Valid UsuarioDTO professor, BindingResult bindingResult, RedirectAttributes attr){
+    public ModelAndView criarProfessor(ModelAndView modelAndView, @Valid UsuarioDTO professor, @RequestParam Integer colegiado, BindingResult bindingResult, RedirectAttributes attr){
         if (professorService.verificarTelefone(professor.getFone())) {
             attr.addFlashAttribute("message", "Conflict: Telefone já existe no banco");
             attr.addFlashAttribute("error", "true");
@@ -105,7 +114,8 @@ public class ProfessorController {
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("professores/new");
         } else {
-            professorService.criarProfessor(professor);
+            Colegiado objcolegiado = colegiadoService.encontrarPorId(colegiado);
+            professorService.criarProfessor(professor, objcolegiado);
             attr.addFlashAttribute("message", "Professor cadastrado com sucesso!");
             attr.addFlashAttribute("error", "false");
             modelAndView.setViewName("redirect:/professores");

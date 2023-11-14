@@ -23,4 +23,9 @@ public class UsuarioDTO {
     @NotEmpty(message = "senha é obrigatório")
     private String senha;
     private Boolean coordenador;
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

@@ -42,7 +42,7 @@ public class Colegiado {
     private String curso;
 
     @OneToMany(mappedBy = "colegiado", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Professor> professores = new ArrayList<>();
+    private List<Professor> professores;
 
     public Colegiado(CriarColegiadoDTO colegiadoDTO) {
         this.dataInicio = LocalDate.now();
@@ -50,5 +50,8 @@ public class Colegiado {
         this.descricao = colegiadoDTO.getDescricao();
         this.portaria = colegiadoDTO.getPortaria();
         this.curso = colegiadoDTO.getCurso();
+    }
+    public int getId() {
+        return id;
     }
 }

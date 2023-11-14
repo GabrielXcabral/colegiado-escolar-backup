@@ -16,4 +16,10 @@ public class CriarProcessoDTO {
     private Integer idAssunto;
     @NotNull(message = "Aluno é obrigatório")
     private Integer idAluno;
+
+    public String toString(){
+        return "Requerimento: " + requerimento + "\n" +
+                "id assunto: " + idAssunto + "\n" +
+                "id aluno: " + idAluno + "\n";
+    }
 }

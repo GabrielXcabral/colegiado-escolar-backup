@@ -1,5 +1,6 @@
 package com.colegiado.sistemacolegiado.models.dto;
 
+import com.colegiado.sistemacolegiado.models.Aluno;
 import com.colegiado.sistemacolegiado.models.Assunto;
 import com.colegiado.sistemacolegiado.models.Processo;
 import com.colegiado.sistemacolegiado.models.enums.StatusProcesso;
@@ -40,5 +41,10 @@ public class ProcessoDTO {
         this.assunto = processo.getAssunto();
         this.requerimento = processo.getRequerimento();
         this.status = processo.getStatus();
+    }
+
+    public void setAluno (AlunoDTO newaluno){
+        this.aluno = newaluno;
+
     }
 }

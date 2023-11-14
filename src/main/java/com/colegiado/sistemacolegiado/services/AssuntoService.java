@@ -20,6 +20,14 @@ public class AssuntoService {
     public Assunto criarAssunto(CriarAssuntoDTO assunto){
         return this.assuntoRepositorio.save(new Assunto(assunto));
     }
+
+    public Assunto toAssunto(CriarAssuntoDTO assuntoDTO){
+            Assunto newassunto = new Assunto();
+            newassunto.setId(assuntoDTO.getId());
+            newassunto.setAssunto(assuntoDTO.getAssunto());
+            return newassunto;
+    }
+
     public List<Assunto> listarAssuntos(){
         return this.assuntoRepositorio.findAll();
     }
@@ -33,7 +41,7 @@ public class AssuntoService {
 
     public Assunto atualizarAssunto(Integer id, CriarAssuntoDTO assuntoDTO) {
         Assunto assunto = encontrarPorId(id);
-        assunto.setNome(assuntoDTO.getNome());
+        assunto.setAssunto(assuntoDTO.getAssunto());
         return assuntoRepositorio.save(assunto);
     }
 }

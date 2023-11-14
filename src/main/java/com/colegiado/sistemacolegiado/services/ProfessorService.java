@@ -1,11 +1,13 @@
 package com.colegiado.sistemacolegiado.services;
 
 import com.colegiado.sistemacolegiado.models.Aluno;
+import com.colegiado.sistemacolegiado.models.Colegiado;
 import com.colegiado.sistemacolegiado.models.Professor;
 import com.colegiado.sistemacolegiado.models.dto.ProfessorDTO;
 import com.colegiado.sistemacolegiado.models.dto.UsuarioDTO;
 import com.colegiado.sistemacolegiado.repositories.ProfessorRepositorio;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +16,13 @@ import java.util.List;
 @AllArgsConstructor
 public class ProfessorService {
     final ProfessorRepositorio professorRepositorio;
+    //final  ColegiadoService colegiadoService;
 
-    public Professor criarProfessor(UsuarioDTO professorDTO){
-        return  this.professorRepositorio.save(new Professor(professorDTO));
+    public Professor criarProfessor(UsuarioDTO professorDTO, Colegiado colegiado){
+        //Colegiado colegiado = colegiadoService.encontrarPorId(idcolegiado);
+        Professor professor = new Professor(professorDTO);
+        professor.setColegiado(colegiado);
+        return professorRepositorio.save(professor);
     }
 
     public Professor encontrarPorId(int id){

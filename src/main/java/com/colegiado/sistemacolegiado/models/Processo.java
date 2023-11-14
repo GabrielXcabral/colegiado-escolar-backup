@@ -1,5 +1,6 @@
 package com.colegiado.sistemacolegiado.models;
 
+import com.colegiado.sistemacolegiado.models.dto.AlunoDTO;
 import com.colegiado.sistemacolegiado.models.dto.CriarProcessoDTO;
 import com.colegiado.sistemacolegiado.models.enums.TipoDecisao;
 import com.colegiado.sistemacolegiado.models.enums.StatusProcesso;
@@ -29,10 +30,12 @@ public class Processo {
     @ManyToOne
     private Professor professor;
     @ManyToOne
+    @JoinColumn(name = "aluno_id", referencedColumnName = "id")
     private Aluno aluno;
     @ManyToOne
     private Reuniao reuniao;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "assunto_id", referencedColumnName = "id")
     private Assunto assunto;
     private String requerimento;
     private StatusProcesso status;
@@ -43,5 +46,10 @@ public class Processo {
         this.requerimento = processoDTO.getRequerimento();
         this.status = StatusProcesso.CRIADO;
         this.dataRecepcao = LocalDate.now();
+    }
+
+    public void setAluno (Aluno newaluno){
+        this.aluno = newaluno;
+
     }
 }

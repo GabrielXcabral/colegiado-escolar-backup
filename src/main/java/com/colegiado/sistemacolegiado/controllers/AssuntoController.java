@@ -2,12 +2,17 @@ package com.colegiado.sistemacolegiado.controllers;
 
 import com.colegiado.sistemacolegiado.models.Aluno;
 import com.colegiado.sistemacolegiado.models.Assunto;
+import com.colegiado.sistemacolegiado.models.Processo;
 import com.colegiado.sistemacolegiado.models.dto.AlunoDTO;
 import com.colegiado.sistemacolegiado.models.dto.CriarAssuntoDTO;
+import com.colegiado.sistemacolegiado.models.dto.ProcessoDTO;
 import com.colegiado.sistemacolegiado.models.dto.UsuarioDTO;
 import com.colegiado.sistemacolegiado.services.AssuntoService;
+import com.colegiado.sistemacolegiado.services.ProcessoService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,12 +22,17 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
 @RequestMapping("/assuntos")
 public class AssuntoController {
     private final AssuntoService assuntoService;
+
+    @Autowired
+    ProcessoService processoService;
+
 
     @GetMapping
     public ModelAndView listarAssuntos(ModelAndView modelAndView) {
@@ -34,12 +44,13 @@ public class AssuntoController {
     }
 
     @GetMapping("/new")
-    public ModelAndView current(ModelAndView modelAndView, CriarAssuntoDTO assuntoDTO) {
+    public ModelAndView criarassunto() {
 
-        modelAndView.setViewName("assuntos/new");
-        modelAndView.addObject("assuntoDTO", assuntoDTO);
+        ModelAndView mv = new ModelAndView("assuntos/new");
+        CriarAssuntoDTO assuntoDTO = new CriarAssuntoDTO();
+        mv.addObject("assuntoDTO", assuntoDTO);
 
-        return modelAndView;
+        return mv;
     }
 
     @GetMapping("/{id}/edit")
@@ -80,15 +91,18 @@ public class AssuntoController {
     }
 
     @PostMapping
-    public ModelAndView criarAssunto(ModelAndView modelAndView, @Valid CriarAssuntoDTO assuntoDTO, BindingResult bindingResult, RedirectAttributes attr) {
+    public ModelAndView criarAssunto(ModelAndView modelAndView, @Valid CriarAssuntoDTO assuntoDTO, BindingResult bindingResult, RedirectAttributes attr, HttpSession session) {
 
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("assuntos/new");
         } else {
-            assuntoService.criarAssunto(assuntoDTO);
+            Aluno aluno = (Aluno) session.getAttribute("aluno");
+            System.out.println(aluno);
+            Assunto assunto = assuntoService.criarAssunto(assuntoDTO);
+            session.setAttribute("assunto", assunto);
             attr.addFlashAttribute("message", "Assunto cadastrado com sucesso!");
             attr.addFlashAttribute("error", "false");
-            modelAndView.setViewName("redirect:/assuntos");
+            modelAndView.setViewName("redirect:/processos/criarprocesso/aluno");
         }
 
         return modelAndView;
@@ -98,6 +112,15 @@ public class AssuntoController {
     public ModelAndView deletarAssunto(ModelAndView modelAndView, @PathVariable (value = "id") int id, RedirectAttributes attr){
         try {
             var assuntoExistente = assuntoService.encontrarPorId(id);
+
+            if(assuntoExistente != null){
+                Optional<Processo> processoscomassunto = processoService.listprocessoscomoassunto(assuntoExistente);
+                /*processoscomassunto.get().setAssunto(null);
+                processoscomassunto.get().setAluno(null);
+                processoscomassunto.get().setReuniao(null);
+                processoscomassunto.get().setProfessor(null);*/
+                processoService.deletarProcesso(processoscomassunto.get());
+            }
             assuntoService.deletarAssunto(assuntoExistente);
             attr.addFlashAttribute("message", "OK: Assunto excluído com sucesso!");
             attr.addFlashAttribute("error", "false");
@@ -122,6 +145,7 @@ public class AssuntoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletarAssunto(@PathVariable (value = "id") int id){
         var assuntoExistente = assuntoService.encontrarPorId(id);
+
         assuntoService.deletarAssunto(assuntoExistente);
         return ResponseEntity.status(HttpStatus.OK).body("OK: Assunto excluído com sucesso!");
     }

@@ -24,13 +24,13 @@
 
     <div class="mb-3">
       <label class="form-label">Login</label>
-      <input class="form-control" th:errorclass="is-invalid" type="email" th:field="*{login}">
+      <input class="form-control" th:errorclass="is-invalid"  type="email" th:field="*{login}">
       <div class="invalid-feedback" th:errors="*{login}"></div>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Senha</label>
-      <input class="form-control" th:errorclass="is-invalid" type="password" th:field="*{senha}">
+      <label for="validationCustom03" class="form-label">Senha</label>
+      <input type="password" class="form-control" th:errorclass="is-invalid" id="validationCustom03" th:field="*{senha}" required >
       <div class="invalid-feedback" th:errors="*{senha}"></div>
     </div>
 

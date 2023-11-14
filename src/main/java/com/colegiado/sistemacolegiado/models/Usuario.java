@@ -26,6 +26,16 @@ public abstract class Usuario {
     private String login;
     @Column (nullable = false)
     private String senha;
+
+    public String toString() {
+
+        return "id: " + String.valueOf(id) + "\n" +
+                "Nome: " + nome + "\n" +
+                "fone: " + fone + "\n" +
+                "matricula: " + matricula + "\n" +
+                "login: " + login + "\n" +
+                "senha: " + senha + "\n";
+    }
 }
 
 

@@ -28,4 +28,13 @@ public class AlunoDTO {
         this.login = aluno.getLogin();
         this.senha = aluno.getSenha();
     }
+
+    public String toString(){
+        return "id: " + id + "\n" +
+                "Nome: " + nome + "\n" +
+                "fone: " + fone + "\n" +
+                "matricula: " + matricula + "\n" +
+                "login: " + login + "\n" +
+                "senha: " + senha + "\n";
+    }
 }

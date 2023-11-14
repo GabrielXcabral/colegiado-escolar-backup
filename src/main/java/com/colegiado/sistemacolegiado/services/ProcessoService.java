@@ -13,6 +13,7 @@ import com.colegiado.sistemacolegiado.models.enums.TipoDecisao;
 import com.colegiado.sistemacolegiado.models.enums.TipoVoto;
 import com.colegiado.sistemacolegiado.repositories.ProcessoRepositorio;
 import com.colegiado.sistemacolegiado.repositories.VotoRepositorio;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,19 @@ public class ProcessoService {
         return this.processoRepositorio.save(new Processo(processoDTO, aluno, assunto));
     }
 
+    @Transactional
+    public Aluno setProcessoNoAluno(Aluno aluno, Processo processo){
+        Aluno alunoX  = alunoService.encontrarPorId(aluno.getId());
+        alunoX.setProcessoDoAluno(processo);
+        return alunoX;
+    }
+
+    public Processo criarProcessoaluno(CriarProcessoDTO processoDTO){
+        var assunto = assuntoService.encontrarPorId(processoDTO.getIdAssunto());
+        var aluno = alunoService.encontrarPorId(processoDTO.getIdAluno());
+        return this.processoRepositorio.save(new Processo(processoDTO, aluno, assunto));
+    }
+
     public Optional<Processo> encontrarPorId(int id){
         return this.processoRepositorio.findById(id);
     }
@@ -44,6 +58,10 @@ public class ProcessoService {
 
     public void deletarProcesso(Processo processo){
         if (processo.getId() != null && this.processoRepositorio.existsById(processo.getId())) {
+            processo.setAssunto(null);
+            processo.setAluno(null);
+            processo.setReuniao(null);
+            processo.setProfessor(null);
             this.processoRepositorio.delete(processo);
         } else {
             throw new RuntimeException("O processo não existe");
@@ -106,5 +124,10 @@ public class ProcessoService {
         }
         processo.setProfessor(professor);
         return processoRepositorio.save(processo);
+    }
+
+    public Optional<Processo> listprocessoscomoassunto (Assunto assunto){
+        return processoRepositorio.findById(assunto.getId());
+
     }
 }

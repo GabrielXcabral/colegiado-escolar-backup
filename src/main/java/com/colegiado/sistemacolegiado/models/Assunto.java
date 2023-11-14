@@ -17,9 +17,18 @@ public class Assunto {
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
-    String nome;
+    String assunto;
 
     public Assunto(CriarAssuntoDTO assunto) {
-        this.nome = assunto.getNome();
+        this.assunto = assunto.getAssunto();
+    }
+
+    public void setAssunto(String Assunto){
+        this.assunto =  Assunto;
+    }
+
+    public String toString(){
+        return "id: " + id + "\n" +
+                "assunto: " + assunto + "\n";
     }
 }

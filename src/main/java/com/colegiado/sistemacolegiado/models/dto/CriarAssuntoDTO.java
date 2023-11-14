@@ -14,10 +14,24 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CriarAssuntoDTO {
     private int id;
-    private String nome;
+    private String assunto;
 
     public CriarAssuntoDTO (Assunto assunto){
         this.id = assunto.getId();
-        this.nome = assunto.getNome();
+        this.assunto = assunto.getAssunto();
     }
+
+    public Assunto toAssunto(){
+        Assunto newassunto = new Assunto();
+        newassunto.setId(id);
+        newassunto.setAssunto(assunto);
+        return newassunto;
+    }
+
+    public String toString(){
+        return "id: " + id + "\n" +
+                "assunto: " + assunto + "\n";
+    }
+
+
 }

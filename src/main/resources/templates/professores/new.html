@@ -41,6 +41,17 @@
             <div class="invalid-feedback" th:errors="*{senha}"></div>
         </div>
 
+        <div class="col-md-3">
+            <label for="validationCustom04" class="form-label">Colegiados</label>
+            <select class="form-select" id="validationCustom04" name="colegiado" required>
+                <option th:each="colegiado : ${colegiados}"
+                        th:value="${colegiado.getId()}" th:text="${colegiado.getCurso()}"></option>
+            </select>
+            <div class="invalid-feedback">
+                Please select a valid state.
+            </div>
+        </div>
+
         <div class="mb-5">
             <input class="form-check-input" th:errorclass="is-invalid" type="checkbox" th:field="*{coordenador}" id="isCoordenador">
             <label class="form-check-label" for="isCoordenador">É Coordenador?</label>
