@@ -40,7 +40,7 @@ public class ProcessoDTO {
         this.aluno = new AlunoDTO(processo.getAluno());
         this.assunto = processo.getAssunto();
         this.requerimento = processo.getRequerimento();
-        this.status = processo.getStatus();
+        this.status = StatusProcesso.valueOf(processo.getStatus());
     }
 
     public void setAluno (AlunoDTO newaluno){

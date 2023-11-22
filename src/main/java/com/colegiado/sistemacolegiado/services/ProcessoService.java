@@ -9,6 +9,7 @@ import com.colegiado.sistemacolegiado.models.Professor;
 import com.colegiado.sistemacolegiado.models.Voto.Voto;
 import com.colegiado.sistemacolegiado.models.Voto.VotoId;
 import com.colegiado.sistemacolegiado.models.dto.FiltrarProcessoDTO;
+import com.colegiado.sistemacolegiado.models.enums.StatusProcesso;
 import com.colegiado.sistemacolegiado.models.enums.TipoDecisao;
 import com.colegiado.sistemacolegiado.models.enums.TipoVoto;
 import com.colegiado.sistemacolegiado.repositories.ProcessoRepositorio;
@@ -16,7 +17,9 @@ import com.colegiado.sistemacolegiado.repositories.VotoRepositorio;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -123,11 +126,30 @@ public class ProcessoService {
             throw new RuntimeException("Professor não faz parte de colegiado");
         }
         processo.setProfessor(professor);
+        processo.setDataDistribuicao(LocalDate.now());
         return processoRepositorio.save(processo);
     }
 
     public Optional<Processo> listprocessoscomoassunto (Assunto assunto){
         return processoRepositorio.findById(assunto.getId());
 
+    }
+
+    public List<Processo> filtrarprocesso (Aluno aluno, String nome, String data, StatusProcesso status){
+        System.out.println(data);
+        System.out.println(aluno);
+        int idAluno = aluno.getId();
+
+        if (StringUtils.hasText(nome) && StringUtils.hasText(data)  && status != null) {
+            return processoRepositorio.filtrarRequerimentoDataStatus(idAluno, nome, status);
+        } else if(StringUtils.hasText(nome)){
+            return processoRepositorio.filtrarRequerimento(nome);
+        } else if (StringUtils.hasText(data)) {
+            return processoRepositorio.filtrarDataRecente(idAluno);
+        } else if (status != null){
+            return processoRepositorio.filtarStatus(status, aluno.getId());
+        }
+
+        return aluno.getProcessos();
     }
 }

@@ -35,4 +35,8 @@ public class Professor extends Usuario{
         this.setSenha(professorDTO.getSenha());
         this.coordenador = professorDTO.getCoordenador();
     }
+
+    public boolean professorcordenador(){
+        return this.coordenador;
+    }
 }

@@ -3,12 +3,14 @@ package com.colegiado.sistemacolegiado.controllers;
 
 import com.colegiado.sistemacolegiado.models.Aluno;
 import com.colegiado.sistemacolegiado.models.Colegiado;
+import com.colegiado.sistemacolegiado.models.Processo;
 import com.colegiado.sistemacolegiado.models.Professor;
 import com.colegiado.sistemacolegiado.models.dto.AlunoDTO;
 import com.colegiado.sistemacolegiado.models.dto.ProfessorDTO;
 import com.colegiado.sistemacolegiado.models.dto.UsuarioDTO;
 import com.colegiado.sistemacolegiado.services.AlunoService;
 import com.colegiado.sistemacolegiado.services.ColegiadoService;
+import com.colegiado.sistemacolegiado.services.ProcessoService;
 import com.colegiado.sistemacolegiado.services.ProfessorService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -28,11 +30,11 @@ import java.util.List;
 @AllArgsConstructor
 public class ProfessorController {
     private final ProfessorService professorService;
-
     private final ColegiadoService colegiadoService;
+    private final ProcessoService processoService;
 
     @GetMapping
-    public ModelAndView getAlunos(ModelAndView modelAndView) {
+    public ModelAndView getProfessores(ModelAndView modelAndView) {
         List<Professor> professores = professorService.listarProfessores();
 
         modelAndView.setViewName("professores/index");
@@ -91,8 +93,32 @@ public class ProfessorController {
         return modelAndView;
     }
 
+    @GetMapping("/{id}/atribuirprocesso")
+    public ModelAndView atribuirprocesso(@PathVariable int id, ModelAndView modelAndView, RedirectAttributes attr) {
+        try {
+            Professor professor = professorService.encontrarPorId(id);
+            List<Professor> professores = professorService.listarProfessores();
+            List<Processo> processos = processoService.listarProcessos();
+
+            var request = new ProfessorDTO(professor);
+
+            modelAndView.setViewName("professores/atribuirprocesso");
+            modelAndView.addObject("professorId", professor.getId());
+            modelAndView.addObject("professor", request);
+            modelAndView.addObject("professores", professores);
+            modelAndView.addObject("processos", processos);
+
+        } catch (Exception e) {
+            attr.addFlashAttribute("message", "Error: "+e);
+            attr.addFlashAttribute("error", "true");
+            modelAndView.setViewName("redirect:/professores");
+        }
+
+        return modelAndView;
+    }
+
     @PostMapping
-    public ModelAndView criarProfessor(ModelAndView modelAndView, @Valid UsuarioDTO professor, @RequestParam Integer colegiado, BindingResult bindingResult, RedirectAttributes attr){
+    public ModelAndView criarProfessor(ModelAndView modelAndView, @Valid UsuarioDTO professor, @RequestParam (required = false) Integer colegiado, BindingResult bindingResult, RedirectAttributes attr){
         if (professorService.verificarTelefone(professor.getFone())) {
             attr.addFlashAttribute("message", "Conflict: Telefone já existe no banco");
             attr.addFlashAttribute("error", "true");
@@ -114,8 +140,12 @@ public class ProfessorController {
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("professores/new");
         } else {
-            Colegiado objcolegiado = colegiadoService.encontrarPorId(colegiado);
-            professorService.criarProfessor(professor, objcolegiado);
+            if(colegiado != null){
+                Colegiado objcolegiado = colegiadoService.encontrarPorId(colegiado);
+                professorService.criarProfessor(professor, objcolegiado);
+            }else {
+                professorService.criarProfessor(professor, null);
+            }
             attr.addFlashAttribute("message", "Professor cadastrado com sucesso!");
             attr.addFlashAttribute("error", "false");
             modelAndView.setViewName("redirect:/professores");
@@ -126,6 +156,23 @@ public class ProfessorController {
 
     @PostMapping("/{id}")
     public ModelAndView atualizarProfessor(ModelAndView modelAndView, @PathVariable Integer id, @Valid UsuarioDTO professor, BindingResult bindingResult, RedirectAttributes attr){
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName("redirect:/professores/{id}/edit");
+        } else {
+
+            attr.addFlashAttribute("message", "OK: Professor editado com sucesso!");
+            attr.addFlashAttribute("error", "false");
+            professorService.atualizarProfessor(id, professor);
+
+            modelAndView.setViewName("redirect:/professores");
+        }
+
+        return modelAndView;
+    }
+
+    @PostMapping("/{id}/atribuirprocesso")
+    public ModelAndView atribuirprocesso(ModelAndView modelAndView, @PathVariable Integer id, @Valid UsuarioDTO professor, BindingResult bindingResult, RedirectAttributes attr){
 
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("redirect:/professores/{id}/edit");

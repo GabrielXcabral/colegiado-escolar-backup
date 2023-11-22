@@ -23,6 +23,14 @@ public class ColegiadoService {
         return this.colegiadoRepositorio.findAll();
     }
 
+    public boolean temcolegiado(Integer id){
+        Professor verificarprofessor = professorService.encontrarPorId(id);
+        if(verificarprofessor.getColegiado() != null){
+            return true;
+        }
+        return false;
+    }
+
     public Colegiado encontrarPorId(int id){
         return this.colegiadoRepositorio.findById(id).orElseThrow(() -> new RuntimeException("Colegiado não encotrado"));
     }

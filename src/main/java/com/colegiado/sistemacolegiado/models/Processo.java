@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -51,5 +52,18 @@ public class Processo {
     public void setAluno (Aluno newaluno){
         this.aluno = newaluno;
 
+    }
+
+    public String getStatus(){
+        return status != null ? status.getStatuString() : "";
+    }
+
+    public String getRequerimento(){
+        return requerimento;
+    }
+
+    public String toString() {
+        return "ID: " + id + "\n" +
+                "Data: " + dataRecepcao;
     }
 }

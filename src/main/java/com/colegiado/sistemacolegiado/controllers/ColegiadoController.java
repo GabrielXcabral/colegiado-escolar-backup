@@ -7,8 +7,10 @@ import com.colegiado.sistemacolegiado.models.dto.ColegiadoDTO;
 import com.colegiado.sistemacolegiado.models.dto.CriarAssuntoDTO;
 import com.colegiado.sistemacolegiado.models.dto.CriarColegiadoDTO;
 import com.colegiado.sistemacolegiado.services.ColegiadoService;
+import com.colegiado.sistemacolegiado.services.ProfessorService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,9 @@ import java.util.List;
 public class ColegiadoController {
 
     private final ColegiadoService colegiadoService;
+
+    @Autowired
+    private ProfessorService professorService;
 
     @GetMapping
     public ModelAndView getColegiados(ModelAndView modelAndView) {
@@ -156,5 +161,9 @@ public class ColegiadoController {
     public Colegiado atualizaColegiado(@PathVariable Integer id,
                                     @RequestBody @Valid CriarColegiadoDTO colegiadoDTO){
         return colegiadoService.atualizarColegiado(id, colegiadoDTO);
+    }
+
+    public boolean temcolegiado(Integer id){
+        return colegiadoService.temcolegiado(id);
     }
 }

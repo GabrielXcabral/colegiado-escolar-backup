@@ -43,13 +43,11 @@
 
         <div class="col-md-3">
             <label for="validationCustom04" class="form-label">Colegiados</label>
-            <select class="form-select" id="validationCustom04" name="colegiado" required>
+            <select class="form-select" id="validationCustom04" name="colegiado">
+                <option value="" th:text="'-- Nenhum Colegiado --'"></option>
                 <option th:each="colegiado : ${colegiados}"
                         th:value="${colegiado.getId()}" th:text="${colegiado.getCurso()}"></option>
             </select>
-            <div class="invalid-feedback">
-                Please select a valid state.
-            </div>
         </div>
 
         <div class="mb-5">

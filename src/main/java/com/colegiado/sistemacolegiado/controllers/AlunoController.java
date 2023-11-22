@@ -8,6 +8,7 @@ import com.colegiado.sistemacolegiado.models.dto.AlunoDTO;
 import com.colegiado.sistemacolegiado.models.dto.CriarAssuntoDTO;
 import com.colegiado.sistemacolegiado.models.dto.CriarColegiadoDTO;
 import com.colegiado.sistemacolegiado.models.dto.UsuarioDTO;
+import com.colegiado.sistemacolegiado.models.enums.StatusProcesso;
 import com.colegiado.sistemacolegiado.services.AlunoService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -20,8 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -77,6 +80,9 @@ public class AlunoController {
         ModelAndView mv = new ModelAndView("alunos/listarprocessoaluno");
             Aluno aluno = alunoService.encontrarPorId(id);
             mv.addObject("processos", aluno.getProcessos());
+            mv.addObject("statusProcesso", StatusProcesso.values());
+            mv.addObject("Aluno", aluno);
+
         return mv;
     }
 

@@ -1,29 +1,41 @@
 package com.colegiado.sistemacolegiado.controllers;
 
-import com.colegiado.sistemacolegiado.models.Aluno;
-import com.colegiado.sistemacolegiado.models.Assunto;
+import com.colegiado.sistemacolegiado.models.*;
+import com.colegiado.sistemacolegiado.models.dto.AlunoDTO;
 import com.colegiado.sistemacolegiado.models.dto.CriarProcessoDTO;
-import com.colegiado.sistemacolegiado.models.Processo;
 import com.colegiado.sistemacolegiado.models.dto.FiltrarProcessoDTO;
 import com.colegiado.sistemacolegiado.models.dto.ProcessoDTO;
+import com.colegiado.sistemacolegiado.models.enums.StatusProcesso;
+import com.colegiado.sistemacolegiado.services.AlunoService;
+import com.colegiado.sistemacolegiado.services.ColegiadoService;
 import com.colegiado.sistemacolegiado.services.ProcessoService;
+import com.colegiado.sistemacolegiado.services.ProfessorService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/processos")
 @AllArgsConstructor
 public class ProcessoController {
     final ProcessoService processoService;
+    final ColegiadoService colegiadoService;
+    final ProfessorService professorService;
+    final AlunoService alunoService;
 
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
@@ -57,12 +69,35 @@ public class ProcessoController {
         return processoService.listarProcessos(filtro).stream().map(ProcessoDTO::new).collect(Collectors.toList());
     }
 
-    @PostMapping("atribuir/{idProcesso}/{idProfessor}")
+    @PostMapping("/atribuir")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public ProcessoDTO atribuirProcesso(@PathVariable Integer idProcesso,
-                                        @PathVariable Integer idProfessor){
-        return new ProcessoDTO(processoService.atribuirProcesso(idProcesso, idProfessor));
+    public ModelAndView atribuirProcesso(@RequestParam Integer idProfessor,
+                                         @RequestParam Integer idProcesso, ModelAndView modelAndView, BindingResult bindingResult, RedirectAttributes attr){
+
+        //new ProcessoDTO(processoService.atribuirProcesso(idProcesso, idProfessor));
+
+        if(!colegiadoService.temcolegiado(idProfessor)){
+            attr.addFlashAttribute("message", "Error: Professor não faz parte do colegiado!");
+            attr.addFlashAttribute("error", "true");
+            modelAndView.setViewName("redirect:/processos");
+            return modelAndView;
+        }
+
+        try {
+            processoService.atribuirProcesso(idProcesso, idProfessor);
+            attr.addFlashAttribute("message", "OK: Processo atribuído com sucesso!");
+            attr.addFlashAttribute("error", "false");
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            attr.addFlashAttribute("message", "Error: " + e.getMessage());
+            attr.addFlashAttribute("error", "true");
+        }
+
+        modelAndView.setViewName("redirect:/processos");
+        return modelAndView;
+
+
     }
 
     @GetMapping
@@ -101,6 +136,31 @@ public class ProcessoController {
         System.out.println(processoDTO);
         System.out.println(testalunoBanco);
 
+        return mv;
+    }
+
+    @GetMapping("/filtrar/{id}")
+    public ModelAndView filtrar (@PathVariable int id, @RequestParam(name = "requerimentoFilter", required = false) String nome,
+                                 @RequestParam(name = "dataFilter", required = false) String dataFilter,
+                                 @RequestParam (name = "statusFilter", required = false) StatusProcesso status) {
+
+        ModelAndView mv = new ModelAndView("alunos/listarprocessoaluno");
+        System.out.println("oiiiiii");
+        System.out.println(dataFilter);
+        System.out.println(nome);
+        System.out.println(id);
+        Aluno aluno = alunoService.encontrarPorId(id);
+        List<Processo> processosfiltrados = processoService.filtrarprocesso(aluno, nome, dataFilter, status);
+
+
+        for(Processo processo : processosfiltrados){
+            System.out.println(processo.toString());
+        }
+
+
+        mv.addObject("processos", processosfiltrados);
+        mv.addObject("statusProcesso", StatusProcesso.values());
+        mv.addObject("Aluno", aluno);
         return mv;
     }
 }

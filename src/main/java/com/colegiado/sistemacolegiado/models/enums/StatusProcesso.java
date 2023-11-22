@@ -1,9 +1,19 @@
 package com.colegiado.sistemacolegiado.models.enums;
 
 public enum StatusProcesso {
-    CRIADO,
-    DISTRIBUIDO,
-    EM_PAUTA,
-    EM_JULGAMENTO,
-    JULGADO
+    CRIADO("Criado"),
+    DISTRIBUIDO("Distribuido"),
+    EM_PAUTA("Em Pauta"),
+    EM_JULGAMENTO("Em Julgamento"),
+    JULGADO("Julgado");
+
+    private String status;
+
+    StatusProcesso (String _status){
+        this.status = _status;
+    }
+
+    public String getStatuString(){
+        return status;
+    }
 }
