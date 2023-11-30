@@ -117,6 +117,30 @@ public class ProfessorController {
         return modelAndView;
     }
 
+    @GetMapping ("{id}/adicionarcolegiado")
+    public ModelAndView adicionarcolegiado(@PathVariable int id, ModelAndView modelAndView, RedirectAttributes attr) {
+        try {
+            Professor professor = professorService.encontrarPorId(id);
+            List<Professor> professores = professorService.listarProfessores();
+            List<Colegiado> colegiados = colegiadoService.listarColegiado();
+
+            var request = new ProfessorDTO(professor);
+
+            modelAndView.setViewName("professores/atribuircolegiado");
+            modelAndView.addObject("professorId", professor.getId());
+            modelAndView.addObject("professor", request);
+            modelAndView.addObject("professores", professores);
+            modelAndView.addObject("colegiados", colegiados);
+
+        } catch (Exception e) {
+            attr.addFlashAttribute("message", "Error: "+e);
+            attr.addFlashAttribute("error", "true");
+            modelAndView.setViewName("redirect:/professores");
+        }
+
+        return modelAndView;
+    }
+
     @PostMapping
     public ModelAndView criarProfessor(ModelAndView modelAndView, @Valid UsuarioDTO professor, @RequestParam (required = false) Integer colegiado, BindingResult bindingResult, RedirectAttributes attr){
         if (professorService.verificarTelefone(professor.getFone())) {

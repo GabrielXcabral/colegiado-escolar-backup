@@ -13,6 +13,7 @@ import com.colegiado.sistemacolegiado.services.ProfessorService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.Banner;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -96,8 +97,6 @@ public class ProcessoController {
 
         modelAndView.setViewName("redirect:/processos");
         return modelAndView;
-
-
     }
 
     @GetMapping
@@ -132,6 +131,7 @@ public class ProcessoController {
         Aluno testalunoBanco = processoService.setProcessoNoAluno(aluno, processo);
 
         mv.addObject("processos", testalunoBanco.getProcessos());
+        mv.addObject("Aluno", aluno);
 
         System.out.println(processoDTO);
         System.out.println(testalunoBanco);

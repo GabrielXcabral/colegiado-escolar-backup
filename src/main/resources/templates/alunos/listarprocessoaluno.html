@@ -1,32 +1,39 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{layouts :: head('Lista de Processos')}">
-    <link rel="stylesheet" th:href="@{/resources/css/aluno/form.css}">
 </head>
 <body>
 <header th:replace="~{layouts :: header('Listagem de Processos')}"></header>
 
 <div class="container mt-4 mb-5">
-    <form th:action="@{/processos/filtrar/{id}(id=${Aluno.getId()})}" method="get">
-        <label for="statusFilter">Filtrar por Requerimento:</label>
-        <select id="requerimeto" name="requerimentoFilter">
-            <option value="" th:text="'-- Nenhum Requerimento --'"></option>
-            <option th:each="processo :${processos}" th:value="${processo.getRequerimento()}" th:text="${processo.getRequerimento()}"></option>
-        </select>
+    <form class="needs-validation" th:action="@{/processos/filtrar/{id}(id=${Aluno.getId()})}" method="get" novalidate>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label for="requerimeto" class="form-label">Filtrar por Requerimento:</label>
+                <select id="requerimeto" name="requerimentoFilter" class="form-select">
+                    <option value="" th:text="'-- Nenhum Requerimento --'"></option>
+                    <option th:each="processo :${processos}" th:value="${processo.getRequerimento()}" th:text="${processo.getRequerimento()}"></option>
+                </select>
+            </div>
 
-        <label>Data:</label>
-        <select id="dataFilter" name="dataFilter">
-            <option value="" th:text="'-- Não filtrar por data --'"></option>
-            <option value="filtrar" th:text="'-- Filtrar pela data mais recente --'"></option>
-        </select>
+            <div class="col-md-4">
+                <label for="dataFilter" class="form-label">Data:</label>
+                <select id="dataFilter" name="dataFilter" class="form-select">
+                    <option value="" th:text="'-- Não filtrar por data --'"></option>
+                    <option value="filtrar" th:text="'-- Filtrar pela data mais recente --'"></option>
+                </select>
+            </div>
 
-        <label for="statusFilter">Filtrar por Status:</label>
-        <select id="statusFilter" name="statusFilter">
-            <option value="" th:text="'-- Nenhum Statuts --'"></option>
-            <option th:each="status :${statusProcesso}" th:value="${status}" th:text="${status.getStatuString()}"></option>
-        </select>
+            <div class="col-md-4">
+                <label for="statusFilter" class="form-label">Filtrar por Status:</label>
+                <select id="statusFilter" name="statusFilter" class="form-select">
+                    <option value="" th:text="'-- Nenhum Statuts --'"></option>
+                    <option th:each="status :${statusProcesso}" th:value="${status}" th:text="${status.getStatuString()}"></option>
+                </select>
+            </div>
+        </div>
 
-        <button type="submit">Filtrar</button>
+        <button type="submit" class="btn btn-primary mt-3">Filtrar</button>
     </form>
 
     <div class="row">
@@ -52,7 +59,7 @@
                 <tr th:each="processo : ${processos}">
                     <th class="col-1" scope="row" th:text="${processo.getId()}">ID</th>
                     <td class="col-1" th:text="${processo.requerimento}">Requerimento</td>
-                    <td class="col-1" th:text="${processo.aluno.getNome()}">Id Aluno</td>
+                    <td class="col-1" th:text="${processo.aluno != null ? processo.aluno.getNome() : ''}">Id Aluno</td>
                     <td class="col-3" th:text="${processo.professor != null ? processo.professor.nome : ''}">Professor</td>
                     <td class="col-1" th:text="${processo.getStatus()}">Status</td>
                     <td class="col-3" th:text="${#temporals.format(processo.dataRecepcao, 'dd/MM/yyyy')}">Data de Recebimento</td>
