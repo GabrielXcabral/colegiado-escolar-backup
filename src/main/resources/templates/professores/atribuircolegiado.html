@@ -5,7 +5,7 @@
 <header th:replace="~{layouts :: header('Atribuir processo professor/coordenador #' + ${professorId})}"></header>
 
 <div class="container mt-4">
-    <form th:object="${professor}" th:action="@{'/processos/atribuir'}" method="POST">
+    <form th:object="${professor}" th:action="@{'/processos/atribuircolegiado'}" method="POST">
         <div class="col-md-3">
             <label for="validationCustom04" class="form-label">Professores</label>
             <select class="form-select" id="validationCustom04" name="idProfessor" required>

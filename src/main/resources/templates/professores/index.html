@@ -40,7 +40,7 @@
                     </td>
 :
                     <td class="col-1" th:if="${professor.coordenador}">
-                        <a class="btn btn-outline-info" th:href="@{/professores/{value}/atribuirprocesso(value = ${professor.id})}"><i class="fa-solid fa-tasks"></i></a>
+                        <a class="btn btn-outline-info" th:href="@{/professores/{value}/atribuir(value = ${professor.id})}"><i class="fa-solid fa-gear fa-spin-pulse"></i></a>
                     </td>
                     <td class="col-1" th:unless="${professor.coordenador}"></td>
 

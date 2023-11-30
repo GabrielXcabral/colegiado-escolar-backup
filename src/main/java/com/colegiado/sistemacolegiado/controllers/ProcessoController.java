@@ -77,6 +77,7 @@ public class ProcessoController {
                                          @RequestParam Integer idProcesso, ModelAndView modelAndView, BindingResult bindingResult, RedirectAttributes attr){
 
         //new ProcessoDTO(processoService.atribuirProcesso(idProcesso, idProfessor));
+        modelAndView.setViewName("redirect:/processos");
 
         if(!colegiadoService.temcolegiado(idProfessor)){
             attr.addFlashAttribute("message", "Error: Professor não faz parte do colegiado!");
@@ -95,7 +96,7 @@ public class ProcessoController {
             attr.addFlashAttribute("error", "true");
         }
 
-        modelAndView.setViewName("redirect:/processos");
+        
         return modelAndView;
     }
 

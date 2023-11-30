@@ -93,12 +93,13 @@ public class ProfessorController {
         return modelAndView;
     }
 
-    @GetMapping("/{id}/atribuirprocesso")
+    @GetMapping("/{id}/atribuir")
     public ModelAndView atribuirprocesso(@PathVariable int id, ModelAndView modelAndView, RedirectAttributes attr) {
         try {
             Professor professor = professorService.encontrarPorId(id);
             List<Professor> professores = professorService.listarProfessores();
             List<Processo> processos = processoService.listarProcessos();
+            List<Colegiado> colegiados = colegiadoService.listarColegiado();
 
             var request = new ProfessorDTO(professor);
 
@@ -107,6 +108,7 @@ public class ProfessorController {
             modelAndView.addObject("professor", request);
             modelAndView.addObject("professores", professores);
             modelAndView.addObject("processos", processos);
+            modelAndView.addObject("colegiados", colegiados);
 
         } catch (Exception e) {
             attr.addFlashAttribute("message", "Error: "+e);
